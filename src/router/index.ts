@@ -1,0 +1,39 @@
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useAuthStore } from '@/store/auth'
+import LandingPage from '@/views/LandingPage.vue'
+import ControlPanel from '@/views/ControlPanel.vue'
+
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: '/',
+    name: 'ControlPanel',
+    component: ControlPanel,
+    meta: { requiresAuth: false } // true
+  },
+  {
+    path: '/landing',
+    name: 'LandingPage',
+    component: LandingPage
+  }
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+// @TODO: this needs to be worked
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if (requiresAuth && !authStore.isAuthenticated) {
+    next({ name: 'LandingPage' })
+  } else if (to.path === '/' && to.name === 'LandingPage' && authStore.isAuthenticated) {
+    next({ name: 'ControlPanel' })
+  } else {
+    next()
+  }
+})
+
+export default router
