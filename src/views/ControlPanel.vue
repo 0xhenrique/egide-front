@@ -10,95 +10,56 @@
         </div>
         
         <div class="dashboard-grid">
-          <div class="dashboard-card">
-            <div class="card-header">
-              <h3>Protection Status</h3>
+          <DashboardCard title="Protection Status" button-text="Configure" @button-click="configureProtection">
+            <div class="status-indicator active">
+              <span class="status-dot"></span>
+              <span class="status-text">Active</span>
             </div>
-            <div class="card-body">
-              <div class="status-indicator active">
-                <span class="status-dot"></span>
-                <span class="status-text">Active</span>
-              </div>
-              <p>Your websites are currently protected against AI crawlers and DDoS attacks.</p>
-            </div>
-            <div class="card-footer">
-              <button class="btn btn-secondary">Configure</button>
-            </div>
-          </div>
+            <p>Your websites are currently protected against AI crawlers and DDoS attacks.</p>
+          </DashboardCard>
           
-          <div class="dashboard-card">
-            <div class="card-header">
-              <h3>Protected Websites</h3>
-            </div>
-            <div class="card-body">
-              <div class="info-value">1</div>
-              <p>website currently protected</p>
-              <div class="website-list">
-                <div class="website-item">
-                  <span class="website-name">example.com</span>
-                  <span class="website-status active">Active</span>
-                </div>
-              </div>
-            </div>
-            <div class="card-footer">
-              <button class="btn btn-secondary">Manage Websites</button>
-            </div>
-          </div>
+          <DashboardCard title="Protected Websites" button-text="Manage Websites" @button-click="manageWebsites">
+            <ProtectedWebsites />
+          </DashboardCard>
           
-          <div class="dashboard-card">
-            <div class="card-header">
-              <h3>Traffic Overview</h3>
-            </div>
-            <div class="card-body">
-              <div class="info-group">
-                <div class="info-item">
-                  <div class="info-label">Total Requests</div>
-                  <div class="info-value">8,429</div>
-                </div>
-                <div class="info-item">
-                  <div class="info-label">Blocked Requests</div>
-                  <div class="info-value">1,062</div>
-                </div>
+          <DashboardCard title="Traffic Overview" button-text="View Details" @button-click="viewTrafficDetails">
+            <div class="info-group">
+              <div class="info-item">
+                <div class="info-label">Total Requests</div>
+                <div class="info-value">8,429</div>
               </div>
-              <div class="traffic-chart">
-                <div class="chart-placeholder">Traffic chart will be displayed here</div>
+              <div class="info-item">
+                <div class="info-label">Blocked Requests</div>
+                <div class="info-value">1,062</div>
               </div>
             </div>
-            <div class="card-footer">
-              <button class="btn btn-secondary">View Details</button>
+            <div class="traffic-chart">
+              <div class="chart-placeholder">Traffic chart will be displayed here</div>
             </div>
-          </div>
+          </DashboardCard>
           
-          <div class="dashboard-card">
-            <div class="card-header">
-              <h3>Recent Threats</h3>
-            </div>
-            <div class="card-body">
-              <div class="threat-list">
-                <div class="threat-item">
-                  <div class="threat-icon bot"></div>
-                  <div class="threat-details">
-                    <div class="threat-type">AI Crawler</div>
-                    <div class="threat-source">IP: 192.168.1.254</div>
-                    <div class="threat-time">Today, 10:25 AM</div>
-                  </div>
-                  <div class="threat-status blocked">Blocked</div>
+          <DashboardCard title="Recent Threats" button-text="View All Threats" @button-click="viewAllThreats">
+            <div class="threat-list">
+              <div class="threat-item">
+                <div class="threat-icon bot"></div>
+                <div class="threat-details">
+                  <div class="threat-type">AI Crawler</div>
+                  <div class="threat-source">IP: 192.168.1.254</div>
+                  <div class="threat-time">Today, 10:25 AM</div>
                 </div>
-                <div class="threat-item">
-                  <div class="threat-icon ddos"></div>
-                  <div class="threat-details">
-                    <div class="threat-type">DDoS Attempt</div>
-                    <div class="threat-source">Multiple IPs</div>
-                    <div class="threat-time">Yesterday, 8:14 PM</div>
-                  </div>
-                  <div class="threat-status blocked">Blocked</div>
+                <div class="threat-status blocked">Blocked</div>
+              </div>
+              <div class="threat-item">
+                <div class="threat-icon ddos"></div>
+                <div class="threat-details">
+                  <div class="threat-type">DDoS Attempt</div>
+                  <div class="threat-source">Multiple IPs</div>
+                  <div class="threat-time">Yesterday, 8:14 PM</div>
                 </div>
+                <div class="threat-status blocked">Blocked</div>
               </div>
             </div>
-            <div class="card-footer">
-              <button class="btn btn-secondary">View All Threats</button>
-            </div>
-          </div>
+          </DashboardCard>
         </div>
       </div>
     </main>
@@ -110,11 +71,15 @@ import { defineComponent, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import Navbar from '@/components/Navbar.vue'
+import DashboardCard from '@/components/DashboardCard.vue'
+import ProtectedWebsites from '@/components/ProtectedWebsites.vue'
 
 export default defineComponent({
   name: 'ControlPanel',
   components: {
-    Navbar
+    Navbar,
+    DashboardCard,
+    ProtectedWebsites
   },
   setup() {
     const router = useRouter()
@@ -128,7 +93,32 @@ export default defineComponent({
       //}
     })
     
-    return {}
+    const configureProtection = () => {
+      console.log('Configure protection clicked')
+      // Will be implemented in the future
+    }
+    
+    const manageWebsites = () => {
+      console.log('Manage websites clicked')
+      // Will be implemented in the future
+    }
+    
+    const viewTrafficDetails = () => {
+      console.log('View traffic details clicked')
+      // Will be implemented in the future
+    }
+    
+    const viewAllThreats = () => {
+      console.log('View all threats clicked')
+      // Will be implemented in the future
+    }
+    
+    return {
+      configureProtection,
+      manageWebsites,
+      viewTrafficDetails,
+      viewAllThreats
+    }
   }
 })
 </script>
@@ -167,38 +157,6 @@ export default defineComponent({
   gap: 1.5rem;
 }
 
-.dashboard-card {
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-header {
-  padding: 1.25rem;
-  border-bottom: 1px solid #e9ecef;
-  background-color: #f8f9fa;
-}
-
-.card-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--primary-color);
-}
-
-.card-body {
-  padding: 1.5rem;
-  flex: 1;
-}
-
-.card-footer {
-  padding: 1rem 1.25rem;
-  border-top: 1px solid #e9ecef;
-  background-color: #f8f9fa;
-}
-
 .status-indicator {
   display: flex;
   align-items: center;
@@ -221,44 +179,6 @@ export default defineComponent({
 }
 
 .status-indicator.active .status-text {
-  color: var(--success-color);
-}
-
-.info-value {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.website-list {
-  margin-top: 1.5rem;
-}
-
-.website-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.website-item:last-child {
-  border-bottom: none;
-}
-
-.website-name {
-  font-weight: 500;
-}
-
-.website-status {
-  font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-}
-
-.website-status.active {
-  background-color: rgba(67, 160, 71, 0.1);
   color: var(--success-color);
 }
 
