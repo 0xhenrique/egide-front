@@ -2,7 +2,7 @@
   <nav class="navbar">
     <div class="container">
       <div class="navbar-brand">
-        <h1>Reverse-Proxy Shield</h1>
+        <h1>Egide</h1>
       </div>
 
       <div class="navbar-menu">

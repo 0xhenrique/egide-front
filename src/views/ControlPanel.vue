@@ -6,7 +6,7 @@
       <div class="container">
         <div class="panel-header">
           <h2>Control Panel</h2>
-          <p>Manage your reverse-proxy protection settings</p>
+          <p>Manage your Egide protection settings</p>
         </div>
         
         <div class="dashboard-grid">
