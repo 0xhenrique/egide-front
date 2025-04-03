@@ -50,23 +50,7 @@
             </div>
             
             <div class="dashboard-item small">
-              <DashboardCard title="Traffic Overview" button-text="View Details" @button-click="viewTrafficDetails">
-                <div class="info-group">
-                  <div class="info-item">
-                    <div class="info-label">Total Requests</div>
-                    <div class="info-value">8,429</div>
-                  </div>
-
-                  <div class="info-item">
-                    <div class="info-label">Blocked Requests</div>
-                    <div class="info-value">1,062</div>
-                  </div>
-                </div>
-
-                <div class="traffic-chart">
-                  <div class="chart-placeholder">Traffic chart will be displayed here</div>
-                </div>
-              </DashboardCard>
+              <ThreatDistribution />
             </div>
           </div>
         </div>
@@ -83,6 +67,7 @@ import Navbar from '@/components/Navbar.vue'
 import DashboardCard from '@/components/DashboardCard.vue'
 import ProtectedWebsites from '@/components/ProtectedWebsites.vue'
 import TrafficAnalysis from '@/components/TrafficAnalysis.vue'
+import ThreatDistribution from '@/components/ThreatDistribution.vue'
 
 export default defineComponent({
   name: 'ControlPanel',
@@ -90,7 +75,8 @@ export default defineComponent({
     Navbar,
     DashboardCard,
     ProtectedWebsites,
-    TrafficAnalysis
+    TrafficAnalysis,
+	ThreatDistribution
   },
   setup() {
     const router = useRouter()
