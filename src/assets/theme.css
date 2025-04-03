@@ -333,7 +333,10 @@ a:hover {
   border-bottom: var(--border-width) var(--border-style) var(--color-border);
 }
 
+/* @TODO: this looks like crap, I don't want to hardcode the max-height */
 .card-body {
+  max-height: 445px;
+  overflow: auto;
   padding: var(--space-md);
 }
 
