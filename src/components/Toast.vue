@@ -81,7 +81,7 @@ export default defineComponent({
   position: fixed;
   top: 1rem;
   right: 1rem;
-  z-index: 9999;
+  z-index: var(--z-index-tooltip);
 }
 
 .toast {
@@ -92,26 +92,26 @@ export default defineComponent({
   max-width: 400px;
   padding: 1rem;
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--shadow-md);
   animation: toast-slide-in 0.3s ease;
 }
 
 .toast-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border-left: 4px solid var(--error-color);
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border-left: 4px solid var(--color-error);
 }
 
 .toast-success {
-  background-color: #d4edda;
-  color: #155724;
-  border-left: 4px solid var(--success-color);
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border-left: 4px solid var(--color-success);
 }
 
 .toast-info {
-  background-color: #cce5ff;
-  color: #004085;
-  border-left: 4px solid #0d6efd;
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
+  border-left: 4px solid var(--color-info);
 }
 
 .toast-content {

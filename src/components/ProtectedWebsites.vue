@@ -58,56 +58,56 @@ export default defineComponent({
 
 <style scoped>
 .info-value {
-	font-size: 2.5rem;
-	font-weight: 600;
-	color: var(--primary-color);
-	margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
 }
-/* @TODO: this must have a max-height + overflow */
+
 .website-list {
-	margin-top: 1.5rem;
-	background-color: #f8f9fa;
+  margin-top: 1.5rem;
+  background-color: var(--color-background-secondary);
 }
 
 .website-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0.75rem 0;
-	border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .website-item:last-child {
-	border-bottom: none;
+  border-bottom: none;
 }
 
 .website-name {
-	font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .website-status {
-	font-size: 0.875rem;
-	padding: 0.25rem 0.5rem;
-	border-radius: 12px;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
 }
 
 .website-status.active {
-	background-color: rgba(67, 160, 71, 0.1);
-	color: var(--success-color);
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
 }
 
 .website-status.inactive {
-	background-color: rgba(158, 158, 158, 0.1);
-	color: #757575;
+  background-color: rgba(158, 158, 158, 0.1);
+  color: var(--color-text-secondary);
 }
 
 .loading-state, .error-state, .empty-state {
-	text-align: center;
-	padding: 1rem 0;
-	color: #6c757d;
+  text-align: center;
+  padding: 1rem 0;
+  color: var(--color-text-secondary);
 }
 
 .error-state {
-	color: var(--error-color);
+  color: var(--color-error);
 }
 </style>

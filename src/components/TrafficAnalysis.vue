@@ -85,28 +85,28 @@ export default defineComponent({
 .stat-item {
   text-align: center;
   padding: 0.75rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-background-secondary);
   border-radius: var(--border-radius);
 }
 
 .stat-label {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
 }
 
 .stat-value {
   font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
 }
 
 .stat-value.legitimate {
-  color: var(--success-color);
+  color: var(--color-success);
 }
 
 .stat-value.blocked {
-  color: var(--error-color);
+  color: var(--color-error);
 }
 
 .traffic-chart-container {

@@ -58,12 +58,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #24292e;
-  color: white;
-  transition: background-color 0.2s ease;
+  background-color: var(--gruvbox-dark0-hard);
+  color: var(--color-text-primary);
+  transition: background-color var(--transition-base);
 }
 
 .github-btn:hover {
-  background-color: #1b1f23;
+  background-color: var(--gruvbox-dark0-soft);
 }
 </style>

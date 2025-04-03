@@ -76,7 +76,7 @@
   --color-info-bg: rgba(131, 165, 152, 0.2);
   
   /* UI Component Colors */
-  --color-card-background: var(--gruvbox-dark1);
+  --color-card-background: var(--gruvbox-dark0);
   --color-card-header: var(--gruvbox-dark0-hard);
   --color-card-footer: var(--gruvbox-dark0-hard);
   
@@ -320,6 +320,8 @@ a:hover {
 /* Card styling */
 .card {
   background-color: var(--color-card-background);
+  border-style: solid;
+  border-width: 1px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   overflow: hidden;

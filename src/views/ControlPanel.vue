@@ -130,7 +130,7 @@ export default defineComponent({
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f5f7fa;
+  background-color: var(--color-background-primary);
 }
 
 .control-panel-content {
@@ -145,12 +145,12 @@ export default defineComponent({
 .panel-header h2 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
-  color: var(--primary-color);
+  color: var(--color-primary);
 }
 
 .panel-header p {
   font-size: 1.1rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
 }
 
 .dashboard-grid {
@@ -194,7 +194,7 @@ export default defineComponent({
 
 .info-label {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
 }
 
@@ -208,12 +208,12 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8f9fa;
+  background-color: var(--color-background-secondary);
   border-radius: var(--border-radius);
 }
 
 .chart-placeholder {
-  color: #6c757d;
+  color: var(--color-text-secondary);
   font-style: italic;
 }
 
@@ -227,7 +227,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 0.75rem;
-  background-color: #f8f9fa;
+  background-color: var(--color-background-secondary);
   border-radius: var(--border-radius);
 }
 
@@ -240,11 +240,11 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .threat-icon.bot {
-  background-color: #ff9800;
+  background-color: var(--gruvbox-bright-orange);
 }
 
 .threat-icon.bot::after {
@@ -252,7 +252,7 @@ export default defineComponent({
 }
 
 .threat-icon.ddos {
-  background-color: #f44336;
+  background-color: var(--gruvbox-bright-red);
 }
 
 .threat-icon.ddos::after {
@@ -265,13 +265,13 @@ export default defineComponent({
 }
 
 .threat-type {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   margin-bottom: 0.25rem;
 }
 
 .threat-source, .threat-time {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: var(--color-text-secondary);
 }
 
 .threat-status {
@@ -281,8 +281,8 @@ export default defineComponent({
 }
 
 .threat-status.blocked {
-  background-color: rgba(229, 57, 53, 0.1);
-  color: #e53935;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
 }
 
 @media (max-width: 1024px) {

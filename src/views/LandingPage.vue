@@ -123,11 +123,12 @@ export default defineComponent({
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--color-background-primary);
 }
 
 .landing-header {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background-secondary);
+  box-shadow: var(--shadow-sm);
   padding: 1rem 0;
 }
 
@@ -140,7 +141,7 @@ export default defineComponent({
 .logo h1 {
   font-size: 1.5rem;
   margin: 0;
-  color: var(--primary-color);
+  color: var(--color-primary);
 }
 
 .auth-buttons {
@@ -167,13 +168,13 @@ export default defineComponent({
 .hero-content h2 {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  color: var(--primary-color);
+  color: var(--color-primary);
 }
 
 .hero-content p {
   font-size: 1.25rem;
   margin-bottom: 2rem;
-  color: #555;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
@@ -192,8 +193,8 @@ export default defineComponent({
 .placeholder-image {
   width: 300px;
   height: 300px;
-  background-color: #f1f5f9;
-  border-radius: 10px;
+  background-color: var(--color-background-secondary);
+  border-radius: var(--border-radius);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,7 +203,7 @@ export default defineComponent({
 .shield-icon {
   width: 150px;
   height: 180px;
-  background-color: var(--primary-color);
+  background-color: var(--color-primary);
   position: relative;
   border-top-left-radius: 75px;
   border-top-right-radius: 75px;
@@ -216,7 +217,7 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   width: 120px;
   height: 150px;
-  background-color: white;
+  background-color: var(--color-background-primary);
   border-top-left-radius: 60px;
   border-top-right-radius: 60px;
 }
@@ -229,7 +230,7 @@ export default defineComponent({
   transform: translate(-50%, -50%);
   width: 40px;
   height: 60px;
-  background-color: var(--primary-color);
+  background-color: var(--color-primary);
   clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
 }
 
@@ -241,7 +242,7 @@ export default defineComponent({
 .features h3 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: var(--primary-color);
+  color: var(--color-primary);
 }
 
 .feature-grid {
@@ -251,10 +252,10 @@ export default defineComponent({
 }
 
 .feature-card {
-  background-color: white;
+  background-color: var(--color-card-background);
   padding: 2rem;
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
+  box-shadow: var(--shadow-sm);
   transition: transform 0.3s ease;
 }
 
@@ -265,15 +266,15 @@ export default defineComponent({
 .feature-card h4 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-  color: var(--secondary-color);
+  color: var(--color-secondary);
 }
 
 .landing-footer {
-  background-color: #f8f9fa;
+  background-color: var(--color-background-secondary);
   padding: 1.5rem 0;
   margin-top: 3rem;
   text-align: center;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--color-border-light);
 }
 
 /* Responsive adjustments */

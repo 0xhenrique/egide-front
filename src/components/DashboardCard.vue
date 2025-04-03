@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-card">
+  <div class="dashboard-card card">
     <div class="card-header">
       <h3>{{ title }}</h3>
     </div>
@@ -40,36 +40,71 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.dashboard-card {
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  overflow: hidden;
+<style>
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: var(--z-index-tooltip);
+}
+
+.toast {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 250px;
+  max-width: 400px;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  animation: toast-slide-in 0.3s ease;
 }
 
-.card-header {
-  padding: 1.25rem;
-  border-bottom: 1px solid #e9ecef;
-  background-color: #f8f9fa;
+.toast-error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border-left: 4px solid var(--color-error);
 }
 
-.card-header h3 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--primary-color);
+.toast-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border-left: 4px solid var(--color-success);
 }
 
-.card-body {
-  padding: 1.5rem;
+.toast-info {
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
+  border-left: 4px solid var(--color-info);
+}
+
+.toast-content {
   flex: 1;
 }
 
-.card-footer {
-  padding: 1rem 1.25rem;
-  border-top: 1px solid #e9ecef;
-  background-color: #f8f9fa;
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  margin-left: 0.5rem;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.toast-close:hover {
+  opacity: 1;
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 </style>
