@@ -1,6 +1,6 @@
 /** Egide - Gruvbox Dark Theme **/
 
-:root {
+:root.theme-gruvbox {
   /* Base Gruvbox Dark Colors */
   --gruvbox-dark0-hard: #1d2021;
   --gruvbox-dark0: #282828;
@@ -159,6 +159,41 @@
   --z-index-tooltip: 1070;
 }
 
+/* Basic default styles (keeping these in :root) */
+:root {
+  /* Fallback basic values that both themes can use */
+  --font-family-base: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --line-height-base: 1.5;
+  
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-xxl: 3rem;
+  
+  --container-max-width: 1200px;
+  --container-padding: 0 var(--space-md);
+  
+  --border-radius-sm: 2px;
+  --border-radius: 4px;
+  --border-radius-lg: 8px;
+  --border-width: 1px;
+  --border-style: solid;
+  
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+}
+
 /* Base Element Styling */
 body {
   font-family: var(--font-family-base);
@@ -171,7 +206,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: var(--space-md);
+  margin-bottom: 0;
   color: var(--color-text-primary);
   font-weight: var(--font-weight-medium);
 }
