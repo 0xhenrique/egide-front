@@ -153,6 +153,7 @@ export default defineComponent({
 
 .dashboard-item {
   display: flex;
+  height: fit-content;
 }
 
 .dashboard-item.small {
