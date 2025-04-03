@@ -10,14 +10,6 @@
         </div>
         
         <div class="dashboard-grid">
-          <DashboardCard title="Protection Status" button-text="Configure" @button-click="configureProtection">
-            <div class="status-indicator active">
-              <span class="status-dot"></span>
-              <span class="status-text">Active</span>
-            </div>
-            <p>Your websites are currently protected against AI crawlers and DDoS attacks.</p>
-          </DashboardCard>
-          
           <DashboardCard title="Protected Websites" button-text="Manage Websites" @button-click="manageWebsites">
             <ProtectedWebsites />
           </DashboardCard>
@@ -93,11 +85,6 @@ export default defineComponent({
       //}
     })
     
-    const configureProtection = () => {
-      console.log('Configure protection clicked')
-      // Will be implemented in the future
-    }
-    
     const manageWebsites = () => {
       console.log('Manage websites clicked')
       // Will be implemented in the future
@@ -114,7 +101,6 @@ export default defineComponent({
     }
     
     return {
-      configureProtection,
       manageWebsites,
       viewTrafficDetails,
       viewAllThreats
@@ -155,31 +141,6 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
-}
-
-.status-indicator {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.status-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-}
-
-.status-indicator.active .status-dot {
-  background-color: var(--success-color);
-}
-
-.status-text {
-  font-weight: 500;
-}
-
-.status-indicator.active .status-text {
-  color: var(--success-color);
 }
 
 .info-group {

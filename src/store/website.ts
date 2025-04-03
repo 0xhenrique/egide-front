@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import api from '@/services/api'
 
-// Define the website interface
 interface Website {
   id: string
   domain: string
@@ -10,7 +9,6 @@ interface Website {
   updatedAt: string
 }
 
-// Define the store state interface
 interface WebsiteState {
   websites: Website[]
   isLoading: boolean
@@ -44,24 +42,10 @@ export const useWebsiteStore = defineStore('website', {
       this.error = null
       
       try {
-        // This will be implemented when API is ready
-        // const response = await api.get('/websites')
-        // this.websites = response.data
-        
-        // For now, just set some mock data
-        this.websites = [
-          {
-            id: '1',
-            domain: 'example.com',
-            isActive: true,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          }
-        ]
-        
+        const response = await api.get('/api/sites')
+        this.websites = response.data
         return this.websites
       } catch (error) {
-        console.error('Error fetching websites:', error)
         this.error = 'Failed to load websites. Please try again.'
         throw error
       } finally {
@@ -78,7 +62,7 @@ export const useWebsiteStore = defineStore('website', {
         // const response = await api.post('/websites', { domain })
         // const newWebsite = response.data
         
-        // For now, just create a mock website
+        // Just a mock
         const newWebsite: Website = {
           id: Date.now().toString(),
           domain,
