@@ -45,9 +45,9 @@ export default defineComponent({
 
 <style>
 .navbar {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+  background-color: var(--color-navbar-bg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-md) 0;
 }
 
 .navbar .container {
@@ -59,7 +59,7 @@ export default defineComponent({
 .navbar-brand h1 {
   font-size: 1.5rem;
   margin: 0;
-  color: var(--primary-color);
+  color: var(--color-primary);
 }
 
 .navbar-menu {
@@ -69,24 +69,26 @@ export default defineComponent({
 .navbar-end {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 .navbar-user {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
 }
 
 .logout-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .logout-icon {
   display: inline-block;
   width: 16px;
   height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%234a6fa5' d='M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9'/%3E%3C/svg%3E");
+  /* SVG with Gruvbox colors */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%2383a598' d='M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

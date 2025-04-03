@@ -62,12 +62,22 @@ export default defineComponent({
 
 <style>
 .auth-toggle {
-  margin-top: 1rem;
+  margin-top: var(--space-md);
   text-align: center;
   justify-content: center;
 }
 
 .auth-toggle p {
   margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.auth-toggle a {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+}
+
+.auth-toggle a:hover {
+  color: var(--gruvbox-bright-orange);
 }
 </style>

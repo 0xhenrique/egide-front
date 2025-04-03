@@ -1,155 +1,172 @@
-:root {
-  --primary-color: #4a6fa5;
-  --secondary-color: #166088;
-  --accent-color: #4fc3f7;
-  --background-color: #f8f9fa;
-  --text-color: #333333;
-  --error-color: #e53935;
-  --success-color: #43a047;
-  --border-radius: 4px;
-  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+/* Egide Gruvbox theme */
+@import './theme.css';
 
+/* Reset and Base Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--text-color);
-  background-color: var(--background-color);
+/* Utility Classes */
+.text-center {
+  text-align: center;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 1rem;
+.text-right {
+  text-align: right;
 }
 
-a {
-  color: var(--primary-color);
-  text-decoration: none;
+.text-left {
+  text-align: left;
 }
 
-a:hover {
-  text-decoration: underline;
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--space-xs); }
+.mb-2 { margin-bottom: var(--space-sm); }
+.mb-3 { margin-bottom: var(--space-md); }
+.mb-4 { margin-bottom: var(--space-lg); }
+.mb-5 { margin-bottom: var(--space-xl); }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--space-xs); }
+.mt-2 { margin-top: var(--space-sm); }
+.mt-3 { margin-top: var(--space-md); }
+.mt-4 { margin-top: var(--space-lg); }
+.mt-5 { margin-top: var(--space-xl); }
+
+.mx-auto { 
+  margin-left: auto; 
+  margin-right: auto; 
 }
 
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.d-flex { display: flex; }
+.flex-column { flex-direction: column; }
+.justify-content-between { justify-content: space-between; }
+.justify-content-center { justify-content: center; }
+.align-items-center { align-items: center; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-grow-1 { flex-grow: 1; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+/* Status Indicators */
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10rem;
 }
 
-.btn {
-  padding: 0.5rem 1rem;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+.badge-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
 }
 
-.btn:hover {
-  background-color: var(--secondary-color);
-  text-decoration: none;
+.badge-warning {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
 }
 
-.btn-secondary {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+.badge-error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
 }
 
-.btn-secondary:hover {
-  background-color: rgba(74, 111, 165, 0.1);
-  color: var(--secondary-color);
-  border-color: var(--secondary-color);
+.badge-info {
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
 }
 
-.form-group {
-  margin-bottom: 1rem;
+/* Additional Toast Styling */
+.toast-error {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border-left: 4px solid var(--color-error);
 }
 
-.form-control {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--text-color);
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: var(--border-radius);
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+.toast-success {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border-left: 4px solid var(--color-success);
 }
 
-.form-control:focus {
-  border-color: var(--primary-color);
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(74, 111, 165, 0.25);
+.toast-info {
+  background-color: var(--color-info-bg);
+  color: var(--color-info);
+  border-left: 4px solid var(--color-info);
 }
 
-.error-message {
-  color: var(--error-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+/* Loading indicators */
+.loading-spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--color-text-tertiary);
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: spin 1s linear infinite;
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.modal {
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  max-width: 500px;
-  width: 100%;
-  padding: 1.5rem;
-  position: relative;
+/* GitHub Button Override (used in login/register) */
+.github-btn {
+  background-color: var(--gruvbox-dark0-hard);
+  color: var(--color-text-primary);
+  transition: background-color var(--transition-base);
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+.github-btn:hover {
+  background-color: var(--gruvbox-dark0-soft);
 }
 
-.modal-title {
-  font-size: 1.25rem;
-  font-weight: 500;
+.github-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  /* Same SVG path but with updated color to match Gruvbox theme */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='%23ebdbb2' d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #6c757d;
+/* Override for Shield Icon */
+.shield-icon {
+  background-color: var(--color-primary);
 }
 
-.modal-body {
-  margin-bottom: 1rem;
+.shield-icon:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 150px;
+  background-color: var(--color-background-primary);
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
+.shield-icon:after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 60px;
+  background-color: var(--color-primary);
+  clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
 }
