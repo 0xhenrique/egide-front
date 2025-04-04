@@ -22,8 +22,8 @@
           
           <div class="dashboard-row">
             <div class="dashboard-item large">
-              <DashboardCard title="Protected Websites" button-text="Manage Websites" @button-click="manageWebsites">
-                <ProtectedWebsites />
+              <DashboardCard title="Protected Websites" button-text="Add Website" @button-click="manageWebsites">
+                <ProtectedWebsites ref="protectedWebsitesRef" />
               </DashboardCard>
             </div>
             
@@ -34,19 +34,30 @@
         </div>
       </div>
     </main>
+    
+    <!-- Global Toast for notifications -->
+    <Toast
+      v-if="toastStore.visible"
+      :message="toastStore.message"
+      :type="toastStore.type"
+      :show="toastStore.visible"
+      @close="toastStore.hideToast"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
+import { useToastStore } from '@/store/toast'
 import Navbar from '@/components/Navbar.vue'
 import DashboardCard from '@/components/DashboardCard.vue'
 import ProtectedWebsites from '@/components/ProtectedWebsites.vue'
 import TrafficAnalysis from '@/components/TrafficAnalysis.vue'
 import ThreatDistribution from '@/components/ThreatDistribution.vue'
 import RecentThreats from '@/components/RecentThreats.vue'
+import Toast from '@/components/Toast.vue'
 
 export default defineComponent({
   name: 'ControlPanel',
@@ -56,25 +67,32 @@ export default defineComponent({
     ProtectedWebsites,
     TrafficAnalysis,
     ThreatDistribution,
-    RecentThreats
+    RecentThreats,
+    Toast
   },
   setup() {
     const router = useRouter()
     const authStore = useAuthStore()
+    const toastStore = useToastStore()
+    const protectedWebsitesRef = ref<InstanceType<typeof ProtectedWebsites> | null>(null)
     
     onMounted(() => {
       authStore.initialize()
       
-      //if (!authStore.isAuthenticated) {
-      //  router.push('/landing')
-      //}
+      if (!authStore.isAuthenticated) {
+        router.push('/landing')
+      }
     })
     
     const manageWebsites = () => {
-      console.log('Manage websites clicked')
+      if (protectedWebsitesRef.value) {
+        protectedWebsitesRef.value.addWebsite()
+      }
     }
     
     return {
+      toastStore,
+      protectedWebsitesRef,
       manageWebsites
     }
   }

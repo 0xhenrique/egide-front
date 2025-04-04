@@ -46,14 +46,20 @@
             <h4 class="category-title">Active Protection</h4>
           </div>
           
-          <div v-for="website in activeWebsites" :key="website.id" class="website-item">
+          <div 
+            v-for="website in activeWebsites" 
+            :key="website.id" 
+            class="website-item"
+            @click="editWebsite(website)"
+          >
             <div class="website-icon" :class="getDomainType(website.domain)"></div>
             <div class="website-details">
-              <a :href="`https://${website.domain}`" target="_blank" class="website-name">
+              <a :href="`https://${website.domain}`" target="_blank" class="website-name" @click.stop>
                 {{ website.domain }}
               </a>
               <div class="website-meta">
                 <span class="protection-duration">Protected for {{ getProtectionDuration(website) }}</span>
+                <span class="protection-mode">{{ getProtectionModeLabel(website) }}</span>
               </div>
             </div>
             <div class="website-status">
@@ -68,14 +74,20 @@
             <h4 class="category-title">Inactive</h4>
           </div>
           
-          <div v-for="website in inactiveWebsites" :key="website.id" class="website-item">
+          <div 
+            v-for="website in inactiveWebsites" 
+            :key="website.id" 
+            class="website-item"
+            @click="editWebsite(website)"
+          >
             <div class="website-icon" :class="getDomainType(website.domain)"></div>
             <div class="website-details">
-              <a :href="`https://${website.domain}`" target="_blank" class="website-name">
+              <a :href="`https://${website.domain}`" target="_blank" class="website-name" @click.stop>
                 {{ website.domain }}
               </a>
               <div class="website-meta">
                 <span class="website-added">Added {{ getAddedDate(website) }}</span>
+                <span class="protection-mode">{{ getProtectionModeLabel(website) }}</span>
               </div>
             </div>
             <div class="website-status">
@@ -85,86 +97,136 @@
         </div>
       </div>
     </div>
+
+    <!-- Website Modal -->
+    <WebsiteModal
+      v-if="showModal"
+      :website="selectedWebsite"
+      @close="closeModal"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from 'vue'
+import { defineComponent, onMounted, computed, ref } from 'vue'
 import { useWebsiteStore } from '@/store/website'
+import { useToastStore } from '@/store/toast'
+import WebsiteModal from '@/components/WebsiteModal.vue'
 
 export default defineComponent({
   name: 'ProtectedWebsites',
-  setup() {
-    const websiteStore = useWebsiteStore();
+  components: {
+    WebsiteModal
+  },
+  emits: ['manage-websites'],
+  setup(props, { emit }) {
+    const websiteStore = useWebsiteStore()
+    const toastStore = useToastStore()
     
-    const websites = computed(() => websiteStore.websites);
-    const isLoading = computed(() => websiteStore.isLoading);
-    const error = computed(() => websiteStore.error);
+    // Modal state
+    const showModal = ref(false)
+    const selectedWebsite = ref(null)
+    
+    const websites = computed(() => websiteStore.websites)
+    const isLoading = computed(() => websiteStore.isLoading)
+    const error = computed(() => websiteStore.error)
     
     const activeWebsites = computed(() => {
-      return websites.value.filter(website => website.active);
-    });
+      return websites.value.filter(website => website.isActive || website.active)
+    })
     
     const inactiveWebsites = computed(() => {
-      return websites.value.filter(website => !website.active);
-    });
+      return websites.value.filter(website => !(website.isActive || website.active))
+    })
     
-    const activeWebsitesCount = computed(() => activeWebsites.value.length);
+    const activeWebsitesCount = computed(() => activeWebsites.value.length)
     
     const counterStyle = computed(() => {
       // Calculate stroke-dashoffset based on active websites percentage
       const percentage = websites.value.length > 0 
         ? activeWebsitesCount.value / websites.value.length 
-        : 0;
-      const circumference = 2 * Math.PI * 45;
-      const dashoffset = circumference * (1 - percentage);
+        : 0
+      const circumference = 2 * Math.PI * 45
+      const dashoffset = circumference * (1 - percentage)
       return { 
         strokeDashoffset: dashoffset,
         strokeDasharray: circumference
-      };
-    });
+      }
+    })
     
     const fetchWebsites = async () => {
       try {
-        await websiteStore.fetchWebsites();
+        await websiteStore.fetchWebsites()
       } catch (err) {
-        console.error('Error fetching websites:', err);
+        console.error('Error fetching websites:', err)
       }
-    };
+    }
+    
+    // Open modal to add a new website
+    const addWebsite = () => {
+      selectedWebsite.value = null
+      showModal.value = true
+    }
+    
+    // Open modal to edit an existing website
+    const editWebsite = (website) => {
+      selectedWebsite.value = website
+      showModal.value = true
+    }
+    
+    // Close the modal
+    const closeModal = () => {
+      showModal.value = false
+      selectedWebsite.value = null
+    }
     
     // Helper function to get an icon class based on domain type
     const getDomainType = (domain: string) => {
       if (domain.includes('shop') || domain.includes('store') || domain.includes('market')) {
-        return 'icon-shop';
+        return 'icon-shop'
       } else if (domain.includes('blog') || domain.includes('news')) {
-        return 'icon-blog';
+        return 'icon-blog'
       } else if (domain.includes('app')) {
-        return 'icon-app';
+        return 'icon-app'
       } else {
-        return 'icon-website';
+        return 'icon-website'
       }
-    };
+    }
     
     const getProtectionDuration = (website: any) => {
-      const createdDate = new Date(website.created_at);
-      const now = new Date();
-      const diffTime = Math.abs(now.getTime() - createdDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const createdDate = new Date(website.createdAt || website.created_at)
+      const now = new Date()
+      const diffTime = Math.abs(now.getTime() - createdDate.getTime())
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
       
-      if (diffDays < 1) return 'today';
-      if (diffDays === 1) return '1 day';
-      if (diffDays < 30) return `${diffDays} days`;
-      if (diffDays < 60) return '1 month';
-      return `${Math.floor(diffDays / 30)} months`;
-    };
+      if (diffDays < 1) return 'today'
+      if (diffDays === 1) return '1 day'
+      if (diffDays < 30) return `${diffDays} days`
+      if (diffDays < 60) return '1 month'
+      return `${Math.floor(diffDays / 30)} months`
+    }
+    
+    // Helper function to get protection mode label
+    const getProtectionModeLabel = (website: any) => {
+      const mode = website.protection_mode || 'simple'
+      return mode === 'hardened' ? 'Hardened Protection' : 'Simple Protection'
+    }
     
     // Helper function to format the date when the website was added
     const getAddedDate = (website: any) => {
-      const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(website.created_at).toLocaleDateString(undefined, options);
-    };
+      const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' }
+      return new Date(website.createdAt || website.created_at).toLocaleDateString(undefined, options)
+    }
     
-    onMounted(fetchWebsites);
+    // Function to be called from parent component
+    const manageWebsites = () => {
+      addWebsite()
+    }
+    
+    // Expose this method to parent component
+    emit('manage-websites', manageWebsites)
+    
+    onMounted(fetchWebsites)
     
     return {
       websites,
@@ -174,8 +236,14 @@ export default defineComponent({
       inactiveWebsites,
       activeWebsitesCount,
       counterStyle,
+      showModal,
+      selectedWebsite,
       fetchWebsites,
+      addWebsite,
+      editWebsite,
+      closeModal,
       getDomainType,
+      getProtectionModeLabel,
       getProtectionDuration,
       getAddedDate
     }
@@ -302,6 +370,7 @@ export default defineComponent({
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--color-border-light);
   transition: background-color var(--transition-base);
+  cursor: pointer;
 }
 
 .website-item:last-child {
@@ -359,10 +428,21 @@ export default defineComponent({
 .website-meta {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .protection-duration {
   color: var(--color-success);
+}
+
+.protection-mode {
+  padding: 0.125rem 0.375rem;
+  background-color: var(--color-background-tertiary);
+  border-radius: 10px;
+  display: inline-block;
 }
 
 .website-added {

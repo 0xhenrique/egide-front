@@ -5,6 +5,8 @@ interface Website {
   id: string
   domain: string
   isActive: boolean
+  active?: boolean
+  protection_mode?: 'simple' | 'hardened'
   createdAt: string
   updatedAt: string
 }
@@ -28,7 +30,7 @@ export const useWebsiteStore = defineStore('website', {
     },
     
     activeWebsitesCount: (state) => {
-      return state.websites.filter(website => website.isActive).length
+      return state.websites.filter(website => website.isActive || website.active).length
     },
     
     totalWebsitesCount: (state) => {
@@ -53,29 +55,69 @@ export const useWebsiteStore = defineStore('website', {
       }
     },
     
-    async addWebsite(domain: string) {
+    async addWebsite(
+      domain: string, 
+      protection_mode: 'simple' | 'hardened' = 'simple', 
+      active: boolean = false
+    ) {
       this.isLoading = true
       this.error = null
       
       try {
-        // This will be implemented when API is ready
-        // const response = await api.post('/websites', { domain })
-        // const newWebsite = response.data
-        
-        // Just a mock
-        const newWebsite: Website = {
-          id: Date.now().toString(),
+        const response = await api.post('/api/sites', {
           domain,
-          isActive: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
+          protection_mode,
+          active
+        })
+        
+        const newWebsite = response.data
         
         this.websites.push(newWebsite)
         return newWebsite
       } catch (error) {
         console.error('Error adding website:', error)
         this.error = 'Failed to add website. Please try again.'
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+    
+    async updateWebsite(
+      id: string, 
+      domain: string, 
+      protection_mode: 'simple' | 'hardened' = 'simple', 
+      active: boolean = false
+    ) {
+      this.isLoading = true
+      this.error = null
+      
+      try {
+        const response = await api.put(`/api/sites/${id}`, {
+          domain,
+          protection_mode,
+          active
+        })
+        
+        const updatedWebsite = response.data
+        
+        // Update local state
+        const index = this.websites.findIndex(w => w.id === id)
+        if (index !== -1) {
+          this.websites[index] = {
+            ...this.websites[index],
+            domain,
+            protection_mode,
+            isActive: active,
+            active,
+            updatedAt: new Date().toISOString()
+          }
+        }
+        
+        return updatedWebsite
+      } catch (error) {
+        console.error('Error updating website:', error)
+        this.error = 'Failed to update website. Please try again.'
         throw error
       } finally {
         this.isLoading = false
@@ -92,17 +134,24 @@ export const useWebsiteStore = defineStore('website', {
           throw new Error('Website not found')
         }
         
-        // This will be implemented when API is ready
-        // const response = await api.patch(`/websites/${id}`, { 
-        //   isActive: !website.isActive 
-        // })
-        // const updatedWebsite = response.data
+        const isActive = website.isActive || website.active || false
         
-        // For now, just update the local state
-        website.isActive = !website.isActive
-        website.updatedAt = new Date().toISOString()
+        const response = await api.put(`/api/sites/${id}`, {
+          active: !isActive
+        })
         
-        return website
+        // Update local state
+        const index = this.websites.findIndex(w => w.id === id)
+        if (index !== -1) {
+          this.websites[index] = {
+            ...this.websites[index],
+            isActive: !isActive,
+            active: !isActive,
+            updatedAt: new Date().toISOString()
+          }
+        }
+        
+        return this.websites[index]
       } catch (error) {
         console.error('Error toggling website status:', error)
         this.error = 'Failed to update website status. Please try again.'
@@ -118,7 +167,7 @@ export const useWebsiteStore = defineStore('website', {
       
       try {
         // This will be implemented when API is ready
-        // await api.delete(`/websites/${id}`)
+        // await api.delete(`/api/sites/${id}`)
         
         // For now, just remove from local state
         this.websites = this.websites.filter(website => website.id !== id)
