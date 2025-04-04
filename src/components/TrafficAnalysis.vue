@@ -19,6 +19,15 @@
       <div class="traffic-chart-container">
         <TrafficChart />
       </div>
+      
+      <!-- Coming Soon Overlay -->
+      <div class="coming-soon-overlay">
+        <div class="overlay-content">
+          <div class="overlay-icon">🔄</div>
+          <h3 class="overlay-title">Coming Soon</h3>
+          <p class="overlay-message">Detailed traffic analytics will be available in the next release.</p>
+        </div>
+      </div>
     </div>
   </DashboardCard>
 </template>
@@ -73,6 +82,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 .traffic-stats {
@@ -112,5 +122,49 @@ export default defineComponent({
 .traffic-chart-container {
   flex: 1;
   min-height: 300px;
+}
+
+/* Coming Soon Overlay Styles */
+.coming-soon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0); /* Semi-transparent dark background */
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: var(--border-radius);
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 80%;
+}
+
+.overlay-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.overlay-title {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
+}
+
+.overlay-message {
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  font-weight: bold;
+  text-shadow: 5px 1px 5px rgba(0, 0, 0, 0.9);
 }
 </style>
