@@ -54,6 +54,13 @@
               <label for="active">Activate protection</label>
             </div>
           </div>
+
+		  <div class="form-info dns-info" v-if="!isEdit">
+			<div class="info-icon">ⓘ</div>
+			<div class="info-content">
+			  After adding your website, you'll need to configure your DNS settings to point to our protection service.
+			</div>
+		  </div>
           
           <div class="modal-actions">
             <button 
@@ -64,6 +71,15 @@
               <span v-if="isSubmitting" class="loading-spinner small"></span>
               {{ isEdit ? 'Update Website' : 'Add Website' }}
             </button>
+
+			<button 
+			  v-if="isEdit" 
+			  type="button" 
+			  class="btn btn-secondary dns-setup-btn" 
+			  @click="$emit('open-dns-wizard', formData.id)"
+			  >
+			  {{ formData.verified ? 'View DNS Setup' : 'Configure DNS' }}
+			</button>
             
             <button 
               v-if="isEdit" 
@@ -91,6 +107,7 @@ interface WebsiteFormData {
   domain: string
   protection_mode: 'simple' | 'hardened'
   active: boolean
+  verified?: boolean
 }
 
 export default defineComponent({
@@ -101,7 +118,7 @@ export default defineComponent({
       default: null
     }
   },
-  emits: ['close'],
+  emits: ['close', 'open-dns-wizard'],
   setup(props, { emit }) {
     const websiteStore = useWebsiteStore()
     const toastStore = useToastStore()
@@ -111,7 +128,8 @@ export default defineComponent({
     const formData = reactive<WebsiteFormData>({
       domain: '',
       protection_mode: 'simple',
-      active: true
+      active: true,
+	  verified: false
     })
     
     const errors = reactive({
@@ -129,6 +147,7 @@ export default defineComponent({
       formData.domain = props.website.domain
       formData.protection_mode = props.website.protection_mode || 'simple'
       formData.active = props.website.active || props.website.isActive
+      formData.verified = props.website.verified || false
     }
     
     const validateForm = () => {
@@ -170,15 +189,25 @@ export default defineComponent({
             formData.active
           )
           toastStore.showSuccess('Website updated successfully')
-        } else {
-          await websiteStore.addWebsite(
-            formData.domain, 
-            formData.protection_mode, 
-            formData.active
-          )
-          toastStore.showSuccess('Website added successfully')
-        }
-        closeModal()
+		} else {
+			// Add new website
+			const result = await websiteStore.addWebsite(
+				formData.domain, 
+				formData.protection_mode, 
+				formData.active
+			)
+			toastStore.showSuccess('Website added successfully')
+			
+			// After adding a website, show a notification about DNS setup
+			toastStore.showInfo('Please set up your DNS to complete the protection setup.')
+			
+			// Close the add website modal but save the new website ID
+			formData.id = result.id
+			
+			// Automatically open the DNS setup wizard for the new website
+			emit('open-dns-wizard', result.id)
+			closeModal()
+		}
       } catch (error: any) {
         if (error.response?.status === 403 && error.response?.data?.message?.includes('quota')) {
           toastStore.showError('You have reached your website quota. Please upgrade your plan to add more websites.')
@@ -323,6 +352,31 @@ export default defineComponent({
   width: 1rem;
   height: 1rem;
   border-width: 2px;
+  margin-right: 0.5rem;
+}
+
+.dns-info {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  background-color: var(--color-info-bg);
+  padding: 0.75rem;
+  border-radius: var(--border-radius);
+}
+
+.info-icon {
+  margin-right: 0.75rem;
+  color: var(--color-info);
+  font-size: 1.25rem;
+}
+
+.info-content {
+  color: var(--color-info);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.dns-setup-btn {
   margin-right: 0.5rem;
 }
 </style>

@@ -60,6 +60,10 @@
               <div class="website-meta">
                 <span class="protection-duration">Protected for {{ getProtectionDuration(website) }}</span>
                 <span class="protection-mode">{{ getProtectionModeLabel(website) }}</span>
+				<VerificationBadge 
+				  :verified="website.verified" 
+				  @click="openDNSWizard(website)"
+				/>
               </div>
             </div>
             <div class="website-status">
@@ -88,6 +92,10 @@
               <div class="website-meta">
                 <span class="website-added">Added {{ getAddedDate(website) }}</span>
                 <span class="protection-mode">{{ getProtectionModeLabel(website) }}</span>
+				<VerificationBadge 
+				  :verified="website.verified" 
+				  @click="openDNSWizard(website)"
+				/>
               </div>
             </div>
             <div class="website-status">
@@ -98,11 +106,16 @@
       </div>
     </div>
 
-    <!-- Website Modal -->
     <WebsiteModal
       v-if="showModal"
       :website="selectedWebsite"
       @close="closeModal"
+    />
+
+    <DNSSetupWizard
+      v-if="showDNSWizard"
+      :website="selectedWebsiteForDNS"
+      @close="closeDNSWizard"
     />
   </div>
 </template>
@@ -112,24 +125,70 @@ import { defineComponent, onMounted, computed, ref } from 'vue'
 import { useWebsiteStore } from '@/store/website'
 import { useToastStore } from '@/store/toast'
 import WebsiteModal from '@/components/WebsiteModal.vue'
+import VerificationBadge from '@/components/VerificationBadge.vue'
+import DNSSetupWizard from '@/components/DNSSetupWizard.vue'
 
 export default defineComponent({
   name: 'ProtectedWebsites',
   components: {
-    WebsiteModal
+	  WebsiteModal,
+	  VerificationBadge,
+	  DNSSetupWizard
   },
   emits: ['manage-websites'],
   setup(props, { emit }) {
     const websiteStore = useWebsiteStore()
     const toastStore = useToastStore()
+
     
     // Modal state
+    const showDNSWizard = ref(false)
+    const selectedWebsiteForDNS = ref(null)
     const showModal = ref(false)
     const selectedWebsite = ref(null)
     
     const websites = computed(() => websiteStore.websites)
     const isLoading = computed(() => websiteStore.isLoading)
     const error = computed(() => websiteStore.error)
+
+    const openDNSWizard = (website, e) => {
+      if (e) e.stopPropagation()
+      
+      selectedWebsiteForDNS.value = website
+      showDNSWizard.value = true
+    }
+    
+    const closeDNSWizard = () => {
+      showDNSWizard.value = false
+      selectedWebsiteForDNS.value = null
+      
+      fetchWebsites()
+    }
+    
+    const handleOpenDNSWizard = (websiteId: string) => {
+      const website = websites.value.find(w => w.id === websiteId)
+      if (website) {
+        openDNSWizard(website)
+      }
+    }
+    
+    const showDNSHelp = (event: Event) => {
+      event.stopPropagation()
+      
+      // mock website for the general DNS help
+      const dnsHelpWebsite = {
+        id: 'dns-help',
+        domain: 'example.com',
+        protection_mode: 'simple',
+        active: true,
+        verified: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+      
+      selectedWebsiteForDNS.value = dnsHelpWebsite
+      showDNSWizard.value = true
+    }
     
     const activeWebsites = computed(() => {
       return websites.value.filter(website => website.isActive || website.active)
@@ -162,19 +221,16 @@ export default defineComponent({
       }
     }
     
-    // Open modal to add a new website
     const addWebsite = () => {
       selectedWebsite.value = null
       showModal.value = true
     }
     
-    // Open modal to edit an existing website
     const editWebsite = (website) => {
       selectedWebsite.value = website
       showModal.value = true
     }
     
-    // Close the modal
     const closeModal = () => {
       showModal.value = false
       selectedWebsite.value = null
@@ -206,13 +262,11 @@ export default defineComponent({
       return `${Math.floor(diffDays / 30)} months`
     }
     
-    // Helper function to get protection mode label
     const getProtectionModeLabel = (website: any) => {
       const mode = website.protection_mode || 'simple'
       return mode === 'hardened' ? 'Hardened Protection' : 'Simple Protection'
     }
     
-    // Helper function to format the date when the website was added
     const getAddedDate = (website: any) => {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' }
       return new Date(website.createdAt || website.created_at).toLocaleDateString(undefined, options)
@@ -227,26 +281,31 @@ export default defineComponent({
     emit('manage-websites', manageWebsites)
     
     onMounted(fetchWebsites)
-    
     return {
-      websites,
-      isLoading,
-      error,
-      activeWebsites,
-      inactiveWebsites,
-      activeWebsitesCount,
-      counterStyle,
-      showModal,
-      selectedWebsite,
-      fetchWebsites,
-      addWebsite,
-      editWebsite,
-      closeModal,
-      getDomainType,
-      getProtectionModeLabel,
-      getProtectionDuration,
-      getAddedDate
-    }
+	  websites,
+	  isLoading,
+	  error,
+	  activeWebsites,
+	  inactiveWebsites,
+	  activeWebsitesCount,
+	  counterStyle,
+	  showModal,
+	  selectedWebsite,
+	  showDNSWizard,
+	  selectedWebsiteForDNS,
+	  fetchWebsites,
+	  addWebsite,
+	  editWebsite,
+	  closeModal,
+	  openDNSWizard,
+	  closeDNSWizard,
+	  handleOpenDNSWizard,
+	  showDNSHelp,
+	  getDomainType,
+	  getProtectionModeLabel,
+	  getProtectionDuration,
+	  getAddedDate
+    } 
   }
 })
 </script>
@@ -507,5 +566,44 @@ export default defineComponent({
   color: var(--color-text-tertiary);
   font-size: 0.875rem;
   font-style: italic;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dns-help {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--color-background-secondary);
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-base);
+}
+
+.dns-help:hover {
+  background-color: var(--color-background-primary);
+}
+
+.help-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--color-info);
+  color: var(--color-text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  margin-right: 0.5rem;
+}
+
+.help-label {
+  font-size: 0.75rem;
+  color: var(--color-info);
 }
 </style>
