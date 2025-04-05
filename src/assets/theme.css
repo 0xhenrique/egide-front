@@ -232,7 +232,7 @@ a:hover {
 
 /* Button styles */
 .btn {
-  display: inline-block;
+  display: flex;
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-btn-primary-bg);
   color: var(--color-btn-primary-text);

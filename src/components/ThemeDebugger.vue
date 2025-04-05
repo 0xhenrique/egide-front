@@ -148,7 +148,7 @@ export default defineComponent({
 
 <style>
 .theme-debugger {
-  position: fixed;
+  /* position: fixed; */
   bottom: 20px;
   right: 20px;
   width: 350px;
@@ -162,7 +162,7 @@ export default defineComponent({
 }
 
 .theme-debugger.collapsed {
-  width: 120px;
+  width: 100%;
   max-height: 40px;
 }
 

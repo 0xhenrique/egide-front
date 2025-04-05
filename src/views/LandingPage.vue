@@ -1,10 +1,10 @@
 <template>
   <div class="landing-page">
-    <Navbar />
+    <TopBar @login="openLoginModal" @register="openRegisterModal" />
     
     <main class="landing-content">
-      <!-- Hero Section -->
-      <section class="hero-section">
+      <!-- Hero -->
+      <section class="hero-section" id="home">
         <div class="container">
           <div class="hero-grid">
             <div class="hero-content">
@@ -26,8 +26,8 @@
         </div>
       </section>
 
-      <!-- Features Section -->
-      <section class="features-section">
+      <!-- Features -->
+      <section class="features-section" id="features">
         <div class="container">
           <div class="section-header">
             <h2 class="section-title">Intelligent Protection Without User Friction</h2>
@@ -61,8 +61,8 @@
         </div>
       </section>
 
-      <!-- How It Works Section -->
-      <section class="how-it-works-section">
+      <!-- How It Works -->
+      <section class="how-it-works-section" id="how-it-works">
         <div class="container">
           <div class="section-header">
             <h2 class="section-title">How Egide Works</h2>
@@ -112,8 +112,8 @@
         </div>
       </section>
 
-      <!-- FAQ Section -->
-      <section class="faq-section">
+      <!-- FAQ -->
+      <section class="faq-section" id="faq">
         <div class="container">
           <div class="section-header">
             <h2 class="section-title">Frequently Asked Questions</h2>
@@ -176,8 +176,8 @@
         </div>
       </section>
 
-      <!-- Final CTA Section -->
-      <section class="cta-section">
+      <!-- Final CTA -->
+      <section class="cta-section" id="cta">
         <div class="container">
           <div class="cta-container">
             <h2 class="cta-title">Ready to Protect Your Website Without Frustrating Your Users?</h2>
@@ -204,11 +204,6 @@
           <div class="footer-logo">
             <h3>Egide</h3>
           </div>
-          <!-- <div class="footer-links"> -->
-          <!--   <a href="#" class="footer-link">Privacy Policy</a> -->
-          <!--   <a href="#" class="footer-link">Terms of Service</a> -->
-          <!--   <a href="#" class="footer-link">Contact Us</a> -->
-          <!-- </div> -->
           <div class="footer-copyright">
             &copy; {{ new Date().getFullYear() }} Egide. All rights reserved.
           </div>
@@ -228,13 +223,13 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
-import Navbar from '@/components/Navbar.vue'
+import TopBar from '@/components/TopBar.vue'
 import AuthModal from '@/components/AuthModal.vue'
 
 export default defineComponent({
   name: 'LandingPage',
   components: {
-    Navbar,
+    TopBar,
     AuthModal
   },
   setup() {
@@ -248,6 +243,17 @@ export default defineComponent({
       authStore.initialize()
       if (authStore.isAuthenticated) {
         router.push('/')
+      }
+
+      // Scroll to section if hash is present in URL
+      if (window.location.hash) {
+        const sectionId = window.location.hash.substring(1)
+        setTimeout(() => {
+          const element = document.getElementById(sectionId)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }
+        }, 100)
       }
     })
     

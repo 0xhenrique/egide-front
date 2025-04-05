@@ -1,41 +1,48 @@
 <template>
   <div class="control-panel">
-    <Navbar />
+    <!-- TopBar for mobile view -->
+    <TopBar v-if="isMobile" />
     
-    <main class="control-panel-content">
-      <div class="container">
-        <div class="panel-header">
-          <h2>Control Panel</h2>
-          <p>Manage your protection settings</p>
-        </div>
-        
-        <KpiDashboard />
-        
-        <div class="dashboard-grid">
-          <div class="dashboard-row">
-            <div class="dashboard-item small">
-              <RecentThreats />
-            </div>
-            
-            <div class="dashboard-item large">
-              <TrafficAnalysis />
-            </div>
+    <div class="control-panel-layout">
+      <!-- Sidebar Menu (hidden on mobile) -->
+      <SidebarMenu v-if="!isMobile" class="control-panel-sidebar" />
+      
+      <!-- Main Content -->
+      <main class="control-panel-content">
+        <div class="container">
+          <div class="panel-header">
+            <h2>Control Panel</h2>
+            <p>Manage your protection settings</p>
           </div>
           
-          <div class="dashboard-row">
-            <div class="dashboard-item large">
-              <DashboardCard title="Protected Websites" button-text="Add Website" @button-click="manageWebsites">
-                <ProtectedWebsites ref="protectedWebsitesRef" />
-              </DashboardCard>
+          <KpiDashboard />
+          
+          <div class="dashboard-grid">
+            <div class="dashboard-row">
+              <div class="dashboard-item small">
+                <RecentThreats />
+              </div>
+              
+              <div class="dashboard-item large">
+                <TrafficAnalysis />
+              </div>
             </div>
             
-            <div class="dashboard-item small">
-              <ThreatDistribution />
+            <div class="dashboard-row">
+              <div class="dashboard-item large">
+                <DashboardCard title="Protected Websites" button-text="Add Website" @button-click="manageWebsites">
+                  <ProtectedWebsites ref="protectedWebsitesRef" />
+                </DashboardCard>
+              </div>
+              
+              <div class="dashboard-item small">
+                <ThreatDistribution />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
     
     <!-- Global Toast for notifications -->
     <Toast
@@ -49,11 +56,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
 import { useToastStore } from '@/store/toast'
-import Navbar from '@/components/Navbar.vue'
+import TopBar from '@/components/TopBar.vue'
+import SidebarMenu from '@/components/SidebarMenu.vue'
 import DashboardCard from '@/components/DashboardCard.vue'
 import ProtectedWebsites from '@/components/ProtectedWebsites.vue'
 import TrafficAnalysis from '@/components/TrafficAnalysis.vue'
@@ -65,7 +73,8 @@ import KpiDashboard from '@/components/KpiDashboard.vue'
 export default defineComponent({
   name: 'ControlPanel',
   components: {
-    Navbar,
+    TopBar,
+    SidebarMenu,
     DashboardCard,
     ProtectedWebsites,
     TrafficAnalysis,
@@ -79,6 +88,11 @@ export default defineComponent({
     const authStore = useAuthStore()
     const toastStore = useToastStore()
     const protectedWebsitesRef = ref<InstanceType<typeof ProtectedWebsites> | null>(null)
+    const isMobile = ref(window.innerWidth < 768)
+    
+    const handleResize = () => {
+      isMobile.value = window.innerWidth < 768
+    }
     
     onMounted(() => {
       authStore.initialize()
@@ -86,6 +100,13 @@ export default defineComponent({
       if (!authStore.isAuthenticated) {
         router.push('/landing')
       }
+      
+      window.addEventListener('resize', handleResize)
+      handleResize() // Initial check
+    })
+    
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', handleResize)
     })
     
     const manageWebsites = () => {
@@ -97,7 +118,8 @@ export default defineComponent({
     return {
       toastStore,
       protectedWebsitesRef,
-      manageWebsites
+      manageWebsites,
+      isMobile
     }
   }
 })
@@ -111,9 +133,20 @@ export default defineComponent({
   background-color: var(--color-background-primary);
 }
 
-.control-panel-content {
-  padding: 2rem 0;
+.control-panel-layout {
+  display: flex;
   flex: 1;
+}
+
+.control-panel-sidebar {
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border-light);
+}
+
+.control-panel-content {
+  flex: 1;
+  padding: 2rem 0;
+  overflow-y: auto;
 }
 
 .panel-header {
@@ -169,6 +202,16 @@ export default defineComponent({
   .dashboard-item.small,
   .dashboard-item.large {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .control-panel-layout {
+    flex-direction: column;
+  }
+  
+  .control-panel-content {
+    padding-top: 1rem;
   }
 }
 </style>

@@ -5,7 +5,8 @@
       @click="toggleTheme" 
       :title="`Switch to ${nextTheme} theme`"
     >
-      <span class="theme-icon" :class="currentTheme"></span>
+	  <p>Change theme</p>
+      <span class="theme-icon" :class="currentTheme">Change theme</span>
     </button>
   </div>
 </template>
@@ -93,14 +94,19 @@ export default defineComponent({
 
 .theme-btn {
   background: none;
-  border: none;
+  width: 100%;
+  border: solid 1px var(--color-border);
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: var(--border-radius);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   transition: background-color var(--transition-base);
+}
+
+.theme-btn p {
+	color: var(--color-text-primary);
 }
 
 .theme-btn:hover {
