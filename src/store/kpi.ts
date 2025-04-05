@@ -64,31 +64,8 @@ export const useKpiStore = defineStore('kpi', {
       this.error = null
       
       try {
-        // @TODO: This would be an actual API call in the future
-        // const response = await api.get('/api/metrics/kpi')
-        // const data = response.data
-        
-        // For now, we'll use mock data
-        await new Promise(resolve => setTimeout(resolve, 500)) // Simulate API delay
-        
-        const data = {
-          totalRequests: {
-            value: 1284392,
-            change: 12.5
-          },
-          blockedThreats: {
-            value: 3427,
-            change: -8.2
-          },
-          responseTime: {
-            value: '42ms',
-            change: -3.1
-          },
-          uptime: {
-            value: 99.98,
-            subvalue: 'Total downtime: 4m 23s'
-          }
-        }
+        const response = await api.get('/api/metrics/kpi')
+        const data = response.data
         
         this.metrics = data
         this.lastUpdated = new Date().toISOString()
