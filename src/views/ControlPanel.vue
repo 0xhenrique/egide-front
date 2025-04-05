@@ -9,6 +9,8 @@
           <p>Manage your protection settings</p>
         </div>
         
+        <KpiDashboard />
+        
         <div class="dashboard-grid">
           <div class="dashboard-row">
             <div class="dashboard-item small">
@@ -58,6 +60,7 @@ import TrafficAnalysis from '@/components/TrafficAnalysis.vue'
 import ThreatDistribution from '@/components/ThreatDistribution.vue'
 import RecentThreats from '@/components/RecentThreats.vue'
 import Toast from '@/components/Toast.vue'
+import KpiDashboard from '@/components/KpiDashboard.vue'
 
 export default defineComponent({
   name: 'ControlPanel',
@@ -68,7 +71,8 @@ export default defineComponent({
     TrafficAnalysis,
     ThreatDistribution,
     RecentThreats,
-    Toast
+    Toast,
+    KpiDashboard
   },
   setup() {
     const router = useRouter()
