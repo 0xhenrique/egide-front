@@ -12,35 +12,48 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'RegisterForm',
   emits: ['close'],
-  setup({ emit }) {
+  setup(_props, { emit }) {
     const authStore = useAuthStore()
-    const router = useRouter()
+    // const router = useRouter()
     const error = ref('')
     const isLoading = ref(false)
     
+    // const handleGithubLogin = async () => {
+    //   error.value = ''
+    //   isLoading.value = true
+      
+    //   try {
+    //     // @TODO: add redirect to github
+    //     const success = authStore.githubLogin()
+        
+    //     if (success) {
+    //       emit('close')
+    //       router.push('/')
+    //     } else {
+    //       error.value = 'GitHub sign up failed'
+    //     }
+    //   } catch (err) {
+    //     error.value = 'An error occurred during GitHub sign up'
+    //     console.error(err)
+    //   } finally {
+    //     isLoading.value = false
+    //   }
+    // }
     const handleGithubLogin = async () => {
       error.value = ''
       isLoading.value = true
       
       try {
-        // @TODO: add redirect to github
-        const success = await authStore.githubLogin()
-        
-        if (success) {
-          emit('close')
-          router.push('/')
-        } else {
-          error.value = 'GitHub sign up failed'
-        }
+        await authStore.githubLogin()
+        emit('close')
       } catch (err) {
         error.value = 'An error occurred during GitHub sign up'
         console.error(err)
-      } finally {
         isLoading.value = false
       }
     }

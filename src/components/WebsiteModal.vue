@@ -104,6 +104,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue'
+import type { PropType } from 'vue'
 import { useWebsiteStore } from '@/store/website'
 import { useToastStore } from '@/store/toast'
 
@@ -119,7 +120,7 @@ export default defineComponent({
   name: 'WebsiteModal',
   props: {
     website: {
-      type: Object,
+      type: Object as PropType<Record<string, any> | null>,
       default: null
     }
   },

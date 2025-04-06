@@ -135,15 +135,15 @@ export default defineComponent({
 	  DNSSetupWizard
   },
   emits: ['manage-websites'],
-  setup({ emit }) {
+  setup(_props, { emit }) {
     const websiteStore = useWebsiteStore()
 
     
     // Modal state
     const showDNSWizard = ref(false)
-    const selectedWebsiteForDNS = ref(null)
     const showModal = ref(false)
-    const selectedWebsite = ref(null)
+    const selectedWebsite = ref({} as any)
+    const selectedWebsiteForDNS = ref({} as any)
     
     const websites = computed(() => websiteStore.websites)
     const isLoading = computed(() => websiteStore.isLoading)

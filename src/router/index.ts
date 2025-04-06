@@ -29,17 +29,17 @@ const router = createRouter({
 })
 
 // @TODO: this needs to be worked
-router.beforeEach((to, next) => {
-	const authStore = useAuthStore()
-	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
-	if (requiresAuth && !authStore.isAuthenticated) {
-		next({ name: 'LandingPage' })
-	} else if (to.path === '/' && to.name === 'LandingPage' && authStore.isAuthenticated) {
-		next({ name: 'ControlPanel' })
-	} else {
-		next()
-	}
+router.beforeEach((to, _from, next) => {
+  const authStore = useAuthStore()
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+
+  if (requiresAuth && !authStore.isAuthenticated) {
+    next({ name: 'LandingPage' })
+  } else if (to.path === '/' && to.name === 'LandingPage' && authStore.isAuthenticated) {
+    next({ name: 'ControlPanel' })
+  } else {
+    next()
+  }
 })
-
 export default router

@@ -14,9 +14,11 @@ api.interceptors.request.use(
 	config => {
 		const authStore = useAuthStore()
 		if (authStore.isAuthenticated) {
-			config.headers = {
-				...config.headers,
-				...authStore.getAuthHeader()
+			const authHeader = authStore.getAuthHeader();
+			if (config.headers && authHeader) {
+				for (const [key, value] of Object.entries(authHeader)) {
+					config.headers[key] = value;
+				}
 			}
 		}
 		return config

@@ -28,7 +28,7 @@ export default defineComponent({
     }
   },
   emits: ['button-click'],
-  setup({ emit }) {
+  setup(_props, { emit }) {
     const handleButtonClick = () => {
       emit('button-click')
     }
