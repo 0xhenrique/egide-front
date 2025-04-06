@@ -1,18 +1,17 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-
-const API_URL = 'http://localhost:8080'
+import { API_BASE_URL, AUTH_URL } from '@/config/env';
 
 interface User {
-	id: string
-	email: string
-	name: string
+  id: string
+  email: string
+  name: string
 }
 
 interface AuthState {
-	user: User | null
-	token: string | null
-	tokenExpiry: number | null
+  user: User | null
+  token: string | null
+  tokenExpiry: number | null
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -90,14 +89,14 @@ export const useAuthStore = defineStore('auth', {
 		},
 		
 		githubLogin() {
-			window.location.href = `${API_URL}/auth/github`
+			window.location.href = `${AUTH_URL}/github`
 		},
 		
 		async fetchUserDetails() {
 			if (!this.token) return false
 			
 			try {
-				const response = await axios.get(`${API_URL}/api/users/me`, {
+				const response = await axios.get(`${API_BASE_URL}/api/users/me`, {
 					headers: { Authorization: `Bearer ${this.token}` }
 				})
 				
