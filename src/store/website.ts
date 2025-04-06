@@ -188,11 +188,7 @@ export const useWebsiteStore = defineStore('website', {
 			this.error = null
 			
 			try {
-				// This would be an actual API call in production
-				// const response = await api.post(`/api/sites/${id}/verify-dns`)
-				
-				// For now, simulate verification with some randomness
-				await new Promise(resolve => setTimeout(resolve, 1500))
+				const response = await api.get(`/api/sites/${id}`)
 				
 				// Get the website from our local state
 				const websiteIndex = this.websites.findIndex(website => website.id === id)
@@ -200,11 +196,8 @@ export const useWebsiteStore = defineStore('website', {
 					throw new Error('Website not found')
 				}
 				
-				// Simulate success or failure (70% success rate for demo purposes)
-				// In production this would use the actual API response
-				const verified = Math.random() > 0.3
+				const verified = response.data.verified
 				
-				// Update the website in local state
 				this.websites[websiteIndex] = {
 					...this.websites[websiteIndex],
 					verified,

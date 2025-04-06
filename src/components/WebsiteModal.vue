@@ -43,17 +43,22 @@
             </div>
             <small v-if="errors.protection_mode" class="error-message">{{ errors.protection_mode }}</small>
           </div>
-          
-          <div class="form-group">
-            <div class="checkbox-control">
-              <input 
-                type="checkbox" 
-                id="active" 
-                v-model="formData.active"
-              />
-              <label for="active">Activate protection</label>
-            </div>
-          </div>
+
+		  <div class="form-group" v-if="isEdit">
+			<div class="checkbox-control">
+			  <input
+				type="checkbox"
+				id="active"
+				v-model="formData.active"
+				@change="handleActiveChange"
+				/>
+			  <label for="active">Activate protection</label>
+			</div>
+			<small v-if="showVerificationWarning" class="verification-warning">
+			  <span class="warning-icon">⚠️</span>
+			  Website must be verified before activating protection. Please configure DNS settings first.
+			</small>
+		  </div>
 
 		  <div class="form-info dns-info" v-if="!isEdit">
 			<div class="info-icon">ⓘ</div>
@@ -136,6 +141,8 @@ export default defineComponent({
       domain: '',
       protection_mode: ''
     })
+
+	const showVerificationWarning = ref(false)
     
     const isEdit = computed(() => {
       return props.website !== null
@@ -148,6 +155,9 @@ export default defineComponent({
       formData.protection_mode = props.website.protection_mode || 'simple'
       formData.active = props.website.active || props.website.isActive
       formData.verified = props.website.verified || false
+    } else {
+      // Default values for new website
+      formData.active = false // Always false for new websites
     }
     
     const validateForm = () => {
@@ -227,6 +237,17 @@ export default defineComponent({
     const closeModal = () => {
       emit('close')
     }
+
+    const handleActiveChange = () => {
+      // If trying to activate but website is not verified
+      if (formData.active && !formData.verified) {
+        showVerificationWarning.value = true
+        // Revert the change automatically
+        formData.active = false
+      } else {
+        showVerificationWarning.value = false
+      }
+    }
     
     return {
       formData,
@@ -234,8 +255,10 @@ export default defineComponent({
       isSubmitting,
       isEdit,
       showTooltip,
+      showVerificationWarning,
       handleSubmit,
-      closeModal
+      closeModal,
+      handleActiveChange
     }
   }
 })
@@ -378,5 +401,16 @@ export default defineComponent({
 
 .dns-setup-btn {
   margin-right: 0.5rem;
+}
+
+.verification-warning {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--color-warning);
+  font-size: 0.875rem;
+}
+
+.warning-icon {
+  margin-right: 0.25rem;
 }
 </style>

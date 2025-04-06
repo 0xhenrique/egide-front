@@ -294,10 +294,6 @@ export default defineComponent({
       isVerifying.value = true
       
       try {
-        // @TODO: This would be an actual API call in production
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
-        // Simulate verification with the API
         const response = await websiteStore.checkDNSVerification(props.website.id)
         isVerified.value = response.verified
         
