@@ -7,7 +7,7 @@
     <div class="sidebar-content">
       <div class="theme-controls">
         <ThemeSwitcher />
-        <ThemeDebugger />
+        <!-- <ThemeDebugger /> -->
       </div>
 	  <hr>
       <div class="user-section" v-if="authStore.isAuthenticated">
@@ -28,13 +28,13 @@ import { defineComponent } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'vue-router'
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
-import ThemeDebugger from '@/components/ThemeDebugger.vue'
+// import ThemeDebugger from '@/components/ThemeDebugger.vue'
 
 export default defineComponent({
   name: 'SidebarMenu',
   components: {
     ThemeSwitcher,
-    ThemeDebugger
+    // ThemeDebugger
   },
   setup() {
     const authStore = useAuthStore()
