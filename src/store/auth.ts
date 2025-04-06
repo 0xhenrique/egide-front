@@ -66,7 +66,6 @@ export const useAuthStore = defineStore('auth', {
 				const params = new URLSearchParams(window.location.hash.substring(1))
 				const token = params.get('token')
 				const expiry = params.get('expiry')
-				const userId = params.get('userId')
 				
 				if (token && expiry) {
 					this.token = token

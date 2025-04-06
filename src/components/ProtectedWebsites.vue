@@ -123,7 +123,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, computed, ref } from 'vue'
 import { useWebsiteStore } from '@/store/website'
-import { useToastStore } from '@/store/toast'
 import WebsiteModal from '@/components/WebsiteModal.vue'
 import VerificationBadge from '@/components/VerificationBadge.vue'
 import DNSSetupWizard from '@/components/DNSSetupWizard.vue'
@@ -136,9 +135,8 @@ export default defineComponent({
 	  DNSSetupWizard
   },
   emits: ['manage-websites'],
-  setup(props, { emit }) {
+  setup({ emit }) {
     const websiteStore = useWebsiteStore()
-    const toastStore = useToastStore()
 
     
     // Modal state
@@ -151,7 +149,7 @@ export default defineComponent({
     const isLoading = computed(() => websiteStore.isLoading)
     const error = computed(() => websiteStore.error)
 
-    const openDNSWizard = (website, e) => {
+    const openDNSWizard = (website: any, e?: any) => {
       if (e) e.stopPropagation()
       
       selectedWebsiteForDNS.value = website
@@ -226,7 +224,7 @@ export default defineComponent({
       showModal.value = true
     }
     
-    const editWebsite = (website) => {
+    const editWebsite = (website: any) => {
       selectedWebsite.value = website
       showModal.value = true
     }

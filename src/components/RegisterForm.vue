@@ -10,14 +10,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'RegisterForm',
   emits: ['close'],
-  setup(props, { emit }) {
+  setup({ emit }) {
     const authStore = useAuthStore()
     const router = useRouter()
     const error = ref('')

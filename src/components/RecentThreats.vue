@@ -46,9 +46,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from 'vue'
+import { defineComponent, onMounted, computed } from 'vue'
 import DashboardCard from '@/components/DashboardCard.vue'
-import { useRecentThreatsStore, Threat } from '@/store/recentThreats'
+import { useRecentThreatsStore } from '@/store/recentThreats'
 
 export default defineComponent({
   name: 'RecentThreats',

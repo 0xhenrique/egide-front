@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
 import LandingPage from '@/views/LandingPage.vue';
 import ControlPanel from '@/views/ControlPanel.vue';
 import GithubCallback from '@/views/GithubCallback.vue';
 
-const routes: Array<RouteRecordRaw> = [
+const routes: Array<any> = [
 	{
 		path: '/',
 		name: 'ControlPanel',
@@ -29,7 +29,7 @@ const router = createRouter({
 })
 
 // @TODO: this needs to be worked
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, next) => {
 	const authStore = useAuthStore()
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 

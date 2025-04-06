@@ -10,18 +10,14 @@
 </template>
 
 <script lang="ts">
- import { defineComponent, ref } from 'vue'
+ import { defineComponent } from 'vue'
  import { useAuthStore } from '@/store/auth'
- import { useRouter } from 'vue-router'
 
  export default defineComponent({
 	 name: 'LoginForm',
 	 emits: ['close'],
-	 setup(props, { emit }) {
+	 setup() {
 		 const authStore = useAuthStore()
-		 const router = useRouter()
-		 const error = ref('')
-		 const isLoading = ref(false)
 		 
 		 const handleGithubLogin = async () => {
 			 authStore.githubLogin()

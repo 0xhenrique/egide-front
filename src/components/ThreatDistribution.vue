@@ -31,7 +31,7 @@
 import { defineComponent, ref, onMounted, computed } from 'vue';
 import Chart from 'chart.js/auto';
 import DashboardCard from '@/components/DashboardCard.vue';
-import { useThreatStore, ThreatType } from '@/store/threat';
+import { useThreatStore } from '@/store/threat';
 
 export default defineComponent({
   name: 'ThreatDistribution',

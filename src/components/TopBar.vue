@@ -54,7 +54,7 @@ export default defineComponent({
   components: {
 	ThemeSwitcher
   },
-  setup(props, { emit }) {
+  setup({ emit }) {
     const authStore = useAuthStore()
     const router = useRouter()
     const route = useRoute()

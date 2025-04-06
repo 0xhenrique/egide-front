@@ -140,6 +140,8 @@ export const useWebsiteStore = defineStore('website', {
 				const response = await api.put(`/api/sites/${id}`, {
 					active: !isActive
 				})
+
+				console.log(response)
 				
 				// Update local state
 				const index = this.websites.findIndex(w => w.id === id)
